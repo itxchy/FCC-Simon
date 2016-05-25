@@ -1,0 +1,153 @@
+// Global ******************
+
+body {
+  background: #222;
+  font-family: helvetica, sans-serif;
+}
+
+// Layout *******************
+
+header {
+  color: #eee;
+  font-size: 2em;
+  text-align: center;
+
+  h1 {
+    margin-bottom: 0;
+  }
+  
+}
+
+.game-status {
+  height: 1.5rem;
+  text-align: center;
+  color: #FFF;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.simon-container {
+  margin: 0 auto;
+  width: 28rem;
+  height: 28rem;
+}
+
+// Simon Buttons *******************
+
+.simon-buttons {
+  float: left;
+  width: 14rem;
+  height: 14rem;
+  transition: .15s ease;
+}
+
+.button-nw {
+  border-radius: 100% 0 0 0;
+  background: #080;
+  margin-top: 1rem;
+}
+
+.button-ne {
+  border-radius: 0 100% 0 0;
+  background: #F00;
+  margin-top: 1rem;
+}
+
+.button-sw {
+  border-radius: 0 0 0 100%;
+  background: #FF0;
+}
+
+.button-se {
+  border-radius: 0 0 100% 0;
+  background: #00F;
+}
+
+.button-active {
+  box-shadow: 0 0 20px 20px #FFF;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+// Center Control Pad *****************
+
+.control-pad {
+  position: relative;
+  height: 12rem;
+  width: 12rem;
+  left: 8rem;
+  top: -20rem;
+  border-radius: 100%;
+  background: #111;
+  color: #aaa;
+  font-size: 1em;
+  box-shadow: 0px 0px 2px 5px #999;
+  overflow: hidden;
+  
+  a {
+    text-decoration: none;
+  }
+}
+
+.step-count-display {
+  position: relative;
+  padding-top: .1em;
+  left: 4rem;
+  top: 2.2rem;
+  height: 3rem;
+  width: 4rem;
+  border-radius: 10%;
+  text-align: center;
+  font-size: 2.5em;
+  color: red;
+  background: #000;
+}
+
+.control-buttons {
+  padding: .2rem;
+  position: relative;
+  text-align: center;
+  color: #FFF;
+}
+
+.button-start {
+  width: 4rem;
+  left: 1.6rem;
+  top: 4rem;
+  background: #040;
+}
+
+.button-reset {
+  width: 4rem;
+  left: 6.4rem;
+  top: 2.5rem;
+  background: #700;
+}
+
+.button-strict {
+  font-size: .6em;
+  width: 6rem;
+  left: 3rem;
+  top: 3.2rem;
+  background: #444;
+}
+
+// Strict Mode Light *******************
+
+.light-strict {
+  height:.2rem;
+  width: .2rem;
+  left: 5.7rem;
+  top: 3.5rem;
+  background: #000;
+  border-radius: 100%;
+  box-shadow: 0px 0px 1px 1px #999;
+}
+
+.on {
+  background: #F00;
+}
