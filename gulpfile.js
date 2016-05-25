@@ -39,15 +39,15 @@ gulp.task('eslint', function() {
 				"browser": true
 			},
 			"parserOptions": {
-		        "ecmaVersion": 6,
-		        "sourceType": "module",
-		        "ecmaFeatures": {
-		            "jsx": true
-		        }
-	    	},
-	    	"rules": {
-	        	"semi": 2
-	    	}
+						"ecmaVersion": 6,
+						"sourceType": "module",
+						"ecmaFeatures": {
+						"jsx": true
+					}
+			},
+			"rules": {
+				"semi": 2
+			}
 		}))
 		.pipe(eslint.format());
 });
