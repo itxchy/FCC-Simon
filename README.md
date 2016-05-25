@@ -12,11 +12,11 @@ Just clone this repository.
 
 ## Gulp Commands
 
-**Start up a server with live reload**
+**Start up a server with live reload**  
 `gulp serve`
 
-**Run unit tests once**
+**Run unit tests once**  
 `gulp test`
 
-**Run unit tests and keep watching**
+**Run unit tests and keep watching**  
 `gulp tdd`
