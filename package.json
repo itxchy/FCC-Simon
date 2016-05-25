@@ -1,7 +1,7 @@
 {
-  "name": "website-now",
-  "version": "0.0.1",
-  "description": "A fast, config-free website boilerplate.",
+  "name": "FCC-Simon",
+  "version": "0.1.0",
+  "description": "The Simon game in JavaScript. A Front End challenge for Free Code Camp.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Tests are run using gulp.\n\nsingle test: gulp test\nTDD tests: gulp tdd\n\" && exit 1"
