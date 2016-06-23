@@ -267,15 +267,20 @@ const simon = (function () {
       });
     },
 
-    resetGame: function() {
+
+    clearMoves: function() {
       computerSteps = [];
       playerSteps = [];
       playerSecondChance = false;
+    },
+
+    resetGame: function() {
+      simonLogic.clearMoves();
       simonLogic.updateDisplay('--');
       $('.simon-buttons')
         .off()
         .removeClass('clickable');
-        return buttonLogic.start();
+      $('#reset-button').off('click');
     },
 
     anotherChance: function() {
@@ -301,7 +306,8 @@ const simon = (function () {
     },
 
     gameLose: function() {
-      return $('.game-status').empty().append('<h2>YOU LOSE!</h2>');
+      $('.game-status').empty().append('<h2>YOU LOSE!</h2>');
+      return buttonLogic.start();
     },
 
     clearGameStatus: function() {
@@ -312,10 +318,11 @@ const simon = (function () {
   buttonLogic = {
     start: function () {
       $('#start-button').click( () => {   
-        simonLogic.resetGame();
+        simonLogic.clearMoves();
         simonLogic.clearGameStatus();
         simonLogic.showComputerSteps();
         $('#start-button').off('click');
+        return buttonLogic.reset();
       });
     },
     
@@ -324,6 +331,8 @@ const simon = (function () {
         console.log('reset button clicked');
         simonLogic.resetGame();
         simonLogic.clearGameStatus();
+        $('#reset-button').off('click');
+        return buttonLogic.start();
       });
     },
 
@@ -343,7 +352,7 @@ const simon = (function () {
   
   function init () {
     buttonLogic.start();
-    buttonLogic.reset();
+    //buttonLogic.reset();
     buttonLogic.strict();
   }
   
