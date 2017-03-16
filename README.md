@@ -2,9 +2,9 @@
 
 The classic Simon game in JavaScript
 
-##Installation
+## Installation
 
-Just clone this repository.
+Clone this repository.
 
 ## Setup
 
@@ -12,11 +12,8 @@ Just clone this repository.
 
 ## Gulp Commands
 
-**Start up a server with live reload**  
-`gulp serve`
+### `npm start`
+Builds the public assets and spins up a development server with live reload.
 
-**Run unit tests once**  
-`gulp test`
-
-**Run unit tests and keep watching**  
-`gulp tdd`
+### `npm run build`
+Builds the public assets which can be served from the `public` directory

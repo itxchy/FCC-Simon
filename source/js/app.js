@@ -6,6 +6,8 @@
 
 const audio = (function () {
 
+  // ******* Create a new audio context *******
+
 	let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 	let gainNode = audioCtx.createGain();
 	gainNode.connect(audioCtx.destination);
@@ -13,6 +15,8 @@ const audio = (function () {
 	let currGain = gainNode.gain.value;
 
 	let waveType = 'sine';
+
+  // ******* Create oscillators for the four game buttons *******
 
   let nw = audioCtx.createOscillator();
   nw.type = waveType;
@@ -33,6 +37,8 @@ const audio = (function () {
   se.type = waveType;
   se.frequency.value = 783.99;
   se.start(0);
+
+  // ******* Methods for starting each audio tone ******* 
   
   let startTone = {
     fadeIn: function () {
@@ -57,6 +63,8 @@ const audio = (function () {
       startTone.fadeIn();
     }
   };
+
+  // ******* Methods for stopping each audio tone *******
 
   let stopTone = {
   	fadeOut: () => {
