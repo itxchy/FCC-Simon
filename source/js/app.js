@@ -178,8 +178,12 @@ const simon = (function () {
       this.playComputerSteps(0);
     },
 
+    /**
+     * Runs recursivly until player matches each index in computerSteps,
+     * or until the player loses.
+     */
     playerTurn: function () {
-     // make simon-buttons clickable
+     // Simon buttons click handler
       $('.simon-buttons')
       .addClass('clickable')
       .mousedown((evt) => {
@@ -200,7 +204,9 @@ const simon = (function () {
         playerSteps.push(evt.target.id);
         currentPlayerStepIndex = playerSteps.length - 1;
 
+        // If player makes a correct step, run playerTurn again
         if (computerSteps[currentPlayerStepIndex] === playerSteps[currentPlayerStepIndex]) {
+          // If final step is correct, it's the computer's turn
           if (computerSteps.length === playerSteps.length) {
             $('.simon-buttons')
               .off()
@@ -218,23 +224,23 @@ const simon = (function () {
               .off()
               .removeClass('clickable');
 
-          return simonLogic.playerTurn();
+          return this.playerTurn();
         }
         // if strictMode is false, player gets another chance
         if (!strictMode) {
-          simonLogic.anotherChance();
+          this.anotherChance();
           $('.simon-buttons')
             .off()
             .removeClass('clickable');
           playerSteps = [];
-          return simonLogic.computerTurn();
+          return this.computerTurn();
         } else {
         // else, strictMode is true, which means game over
-          simonLogic.gameLose();
+          this.gameLose();
           $('.simon-buttons')
             .off()
             .removeClass('clickable');
-          return simonLogic.resetGame();
+          return this.resetGame();
         }
       });
     },
