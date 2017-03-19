@@ -92,31 +92,53 @@ const simon = (function () {
   /**
    * Game State
    */
-  const colors = {
-    nw: '#080',
-    ne: '#F00',
-    sw: '#FF0',
-    se: '#00F'
-  };
-  const colorsActive = {
-    nw: '#8B8',
-    ne: '#FAA',
-    sw: '#FF9',
-    se: '#99F'
-  };
-  const availableSteps = ['nw', 'ne', 'sw', 'se'];
 
-  let computerSteps = [];
-  let playerSteps = [];
-  let strictMode = false;
-  let playerSecondChance = false;
-  let gameReset = false;
+  const state = {
+    colors: {
+      nw: '#080',
+      ne: '#F00',
+      sw: '#FF0',
+      se: '#00F'
+    },
+    colorsActive: {
+      nw: '#8B8',
+      ne: '#FAA',
+      sw: '#FF9',
+      se: '#99F'
+    },
+    availableSteps: ['nw', 'ne', 'sw', 'se'],
+    computerSteps: [],
+    playerSteps: [],
+    strictMode: false,
+    playerSecondChance: false,
+    gameReset: false
+  };
 
-  function getRandomInt (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+  // const colors = {
+  //   nw: '#080',
+  //   ne: '#F00',
+  //   sw: '#FF0',
+  //   se: '#00F'
+  // };
+  // const colorsActive = {
+  //   nw: '#8B8',
+  //   ne: '#FAA',
+  //   sw: '#FF9',
+  //   se: '#99F'
+  // };
+  // const availableSteps = ['nw', 'ne', 'sw', 'se'];
+
+  // let computerSteps = [];
+  // let playerSteps = [];
+  // let strictMode = false;
+  // let playerSecondChance = false;
+  // let gameReset = false;
 
   const simonLogic = {
+
+    getRandomInt: function (min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    },
 
     updateDisplay: function (value) {
       $('#display')
@@ -128,19 +150,19 @@ const simon = (function () {
      * Runs recursivly until each index in computerSteps is played through
      */
     playComputerSteps: function (index) {
-      if (gameReset) {
+      if (state.gameReset) {
         return;
       }
 
-      if (!computerSteps[index]) {
+      if (!state.computerSteps[index]) {
         this.playerTurn();
         return;
       }
 
-      const currentStep = computerSteps[index];
-      const stepId = `#${computerSteps[index]}`;
-      const activeColor = colorsActive[computerSteps[index]];
-      const defaultColor = colors[computerSteps[index]];
+      const currentStep = state.computerSteps[index];
+      const stepId = `#${state.computerSteps[index]}`;
+      const activeColor = state.colorsActive[state.computerSteps[index]];
+      const defaultColor = state.colors[state.computerSteps[index]];
 
       const displayTurns = () => {
         return new Promise((resolve, reject) => {
@@ -168,17 +190,17 @@ const simon = (function () {
     },
 
     computerTurn: function () {
-      if (computerSteps.length === 20) {
+      if (state.computerSteps.length === 20) {
         return this.gameWin();
       }
 
-      if (!playerSecondChance) {
+      if (!state.playerSecondChance) {
         // add random step to compterSteps array
-        var randomButtonIndex = getRandomInt(0, 3);
-        computerSteps.push(availableSteps[randomButtonIndex]);
+        var randomButtonIndex = this.getRandomInt(0, 3);
+        state.computerSteps.push(state.availableSteps[randomButtonIndex]);
       }
 
-      this.updateDisplay(computerSteps.length);
+      this.updateDisplay(state.computerSteps.length);
 
       this.playComputerSteps(0);
     },
@@ -192,23 +214,22 @@ const simon = (function () {
       $('.simon-buttons')
       .addClass('clickable')
       .mousedown((evt) => {
-        $('#' + evt.target.id).css('background', colorsActive[evt.target.id]);
+        $('#' + evt.target.id).css('background', state.colorsActive[evt.target.id]);
         audio.startTone[evt.target.id]();
       })
       .mouseup((evt) => {
-        $('#' + evt.target.id).css('background', colors[evt.target.id]);
+        $('#' + evt.target.id).css('background', state.colors[evt.target.id]);
         audio.stopTone[evt.target.id]();
       })
       .on('click', (evt) => {
         evt.preventDefault();
         evt.stopPropagation();
-        var currentPlayerStepIndex;
 
-        playerSteps.push(evt.target.id);
-        currentPlayerStepIndex = playerSteps.length - 1;
+        state.playerSteps.push(evt.target.id);
+        const currentPlayerStepIndex = state.playerSteps.length - 1;
 
         // If player makes a correct step, run playerTurn again
-        if (computerSteps[currentPlayerStepIndex] === playerSteps[currentPlayerStepIndex]) {
+        if (state.computerSteps[currentPlayerStepIndex] === state.playerSteps[currentPlayerStepIndex]) {
           return this.handleCorrectUserStep();
         }
 
@@ -218,13 +239,13 @@ const simon = (function () {
 
     handleCorrectUserStep: function () {
       // If final step is correct, it's the computer's turn
-      if (computerSteps.length === playerSteps.length) {
+      if (state.computerSteps.length === state.playerSteps.length) {
         $('.simon-buttons')
           .off()
           .removeClass('clickable');
-        playerSteps = [];
+        state.playerSteps = [];
 
-        if (playerSecondChance) {
+        if (state.playerSecondChance) {
           this.clearAnotherChance();
         }
 
@@ -240,12 +261,12 @@ const simon = (function () {
 
     handleIncorrectUserStep: function () {
       // if strictMode is false, player gets another chance
-      if (!strictMode) {
+      if (!state.strictMode) {
         this.anotherChance();
         $('.simon-buttons')
           .off()
           .removeClass('clickable');
-        playerSteps = [];
+        state.playerSteps = [];
         return this.computerTurn();
       } else {
       // else, strictMode is true, which means game over
@@ -258,9 +279,9 @@ const simon = (function () {
     },
 
     clearMoves: function () {
-      computerSteps = [];
-      playerSteps = [];
-      playerSecondChance = false;
+      state.computerSteps = [];
+      state.playerSteps = [];
+      state.playerSecondChance = false;
     },
 
     resetGame: function () {
@@ -276,13 +297,13 @@ const simon = (function () {
       $('.game-status')
         .empty()
         .append('<h2>WRONG! TRY AGAIN</h2>');
-      playerSteps = [];
-      playerSecondChance = true;
+      state.playerSteps = [];
+      state.playerSecondChance = true;
     },
 
     clearAnotherChance: function () {
       this.clearGameStatus();
-      playerSecondChance = false;
+      state.playerSecondChance = false;
     },
 
     gameWin: function () {
@@ -307,7 +328,7 @@ const simon = (function () {
   const buttonLogic = {
     start: function () {
       $('#start-button').click(() => {
-        gameReset = false;
+        state.gameReset = false;
         simonLogic.clearMoves();
         simonLogic.clearGameStatus();
         simonLogic.computerTurn();
@@ -318,7 +339,7 @@ const simon = (function () {
 
     reset: function () {
       $('#reset-button').click(() => {
-        gameReset = true;
+        state.gameReset = true;
         simonLogic.resetGame();
         simonLogic.clearGameStatus();
         $('#reset-button').off('click');
@@ -328,7 +349,7 @@ const simon = (function () {
 
     strict: function () {
       $('#strict-mode-button').click(() => {
-        strictMode = !strictMode;
+        state.strictMode = !state.strictMode;
         this.strictLightToggle();
       });
     },
@@ -345,8 +366,7 @@ const simon = (function () {
   }
 
   return {
-    init: init,
-    getRandomInt: getRandomInt
+    init: init
   };
 })();
 
