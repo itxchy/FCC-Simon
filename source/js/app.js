@@ -38,6 +38,7 @@ const audio = (function () {
   /**
    * Methods for starting each oscillator tone
    */
+
   let startTone = {
     connectOscillator: (oscillator) => {
       oscillator.connect(gainNode);
@@ -206,43 +207,52 @@ const simon = (function () {
 
         // If player makes a correct step, run playerTurn again
         if (computerSteps[currentPlayerStepIndex] === playerSteps[currentPlayerStepIndex]) {
-          // If final step is correct, it's the computer's turn
-          if (computerSteps.length === playerSteps.length) {
-            $('.simon-buttons')
-              .off()
-              .removeClass('clickable');
-            playerSteps = [];
-
-            if (playerSecondChance) {
-              this.clearAnotherChance();
-            }
-
-            return this.computerTurn();
-          }
-
-          $('.simon-buttons')
-              .off()
-              .removeClass('clickable');
-
-          return this.playerTurn();
+          return this.handleCorrectUserStep();
         }
-        // if strictMode is false, player gets another chance
-        if (!strictMode) {
-          this.anotherChance();
-          $('.simon-buttons')
-            .off()
-            .removeClass('clickable');
-          playerSteps = [];
-          return this.computerTurn();
-        } else {
-        // else, strictMode is true, which means game over
-          this.gameLose();
-          $('.simon-buttons')
-            .off()
-            .removeClass('clickable');
-          return this.resetGame();
-        }
+
+        return this.handleIncorrectUserStep();
       });
+    },
+
+    handleCorrectUserStep: function () {
+      // If final step is correct, it's the computer's turn
+      if (computerSteps.length === playerSteps.length) {
+        $('.simon-buttons')
+          .off()
+          .removeClass('clickable');
+        playerSteps = [];
+
+        if (playerSecondChance) {
+          this.clearAnotherChance();
+        }
+
+        return this.computerTurn();
+      }
+
+      $('.simon-buttons')
+          .off()
+          .removeClass('clickable');
+
+      return this.playerTurn();
+    },
+
+    handleIncorrectUserStep: function () {
+      // if strictMode is false, player gets another chance
+      if (!strictMode) {
+        this.anotherChance();
+        $('.simon-buttons')
+          .off()
+          .removeClass('clickable');
+        playerSteps = [];
+        return this.computerTurn();
+      } else {
+      // else, strictMode is true, which means game over
+        this.gameLose();
+        $('.simon-buttons')
+          .off()
+          .removeClass('clickable');
+        return this.resetGame();
+      }
     },
 
     clearMoves: function () {
