@@ -114,26 +114,6 @@ const simon = (function () {
     gameReset: false
   };
 
-  // const colors = {
-  //   nw: '#080',
-  //   ne: '#F00',
-  //   sw: '#FF0',
-  //   se: '#00F'
-  // };
-  // const colorsActive = {
-  //   nw: '#8B8',
-  //   ne: '#FAA',
-  //   sw: '#FF9',
-  //   se: '#99F'
-  // };
-  // const availableSteps = ['nw', 'ne', 'sw', 'se'];
-
-  // let computerSteps = [];
-  // let playerSteps = [];
-  // let strictMode = false;
-  // let playerSecondChance = false;
-  // let gameReset = false;
-
   const simonLogic = {
 
     getRandomInt: function (min, max) {
