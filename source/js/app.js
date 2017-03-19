@@ -128,14 +128,11 @@ const simon = (function () {
      * Runs recursivly until each index in computerSteps is played through
      */
     playComputerSteps: function (index) {
-      console.log('outer game reset:', gameReset)
       if (gameReset) {
         return;
       }
 
       if (!computerSteps[index]) {
-        console.log('player turn')
-        console.log('game reset:', gameReset)
         this.playerTurn();
         return;
       }
