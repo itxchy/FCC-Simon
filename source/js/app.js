@@ -89,10 +89,6 @@ const audio = (function () {
 })();
 
 const simon = (function () {
-  /**
-   * Game State
-   */
-
   const state = {
     colors: {
       nw: '#080',
