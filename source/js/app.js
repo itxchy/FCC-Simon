@@ -110,6 +110,7 @@ const simon = (function () {
   let playerSteps = [];
   let strictMode = false;
   let playerSecondChance = false;
+  let gameReset = false;
 
   function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -127,7 +128,14 @@ const simon = (function () {
      * Runs recursivly until each index in computerSteps is played through
      */
     playComputerSteps: function (index) {
+      console.log('outer game reset:', gameReset)
+      if (gameReset) {
+        return;
+      }
+
       if (!computerSteps[index]) {
+        console.log('player turn')
+        console.log('game reset:', gameReset)
         this.playerTurn();
         return;
       }
@@ -188,12 +196,10 @@ const simon = (function () {
       .addClass('clickable')
       .mousedown((evt) => {
         $('#' + evt.target.id).css('background', colorsActive[evt.target.id]);
-        console.log('PLAYER TONE STARTING', evt);
         audio.startTone[evt.target.id]();
       })
       .mouseup((evt) => {
         $('#' + evt.target.id).css('background', colors[evt.target.id]);
-        console.log('PLAYER TONE ENDING');
         audio.stopTone[evt.target.id]();
       })
       .on('click', (evt) => {
@@ -304,6 +310,7 @@ const simon = (function () {
   const buttonLogic = {
     start: function () {
       $('#start-button').click(() => {
+        gameReset = false;
         simonLogic.clearMoves();
         simonLogic.clearGameStatus();
         simonLogic.computerTurn();
@@ -314,6 +321,7 @@ const simon = (function () {
 
     reset: function () {
       $('#reset-button').click(() => {
+        gameReset = true;
         simonLogic.resetGame();
         simonLogic.clearGameStatus();
         $('#reset-button').off('click');
